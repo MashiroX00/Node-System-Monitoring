@@ -8,6 +8,7 @@ routes.get("/resources", (req, res) => {
     const dayformatted = Duration.fromMillis(Usage.cpuTime * 1000).toFormat("dd:hh:mm:ss");
     const day = dayformatted.split(':');
     const data = {
+      os: Usage.fullosname,
       name: Usage.name,
       model: Usage.cpuname,
       threads,

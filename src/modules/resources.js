@@ -11,8 +11,16 @@ export const getSystemUsage = (delay = 1000,threaddetails = true) => {
             const memoryfree = os.freemem();
             const memoryUsage = (memorytotal - memoryfree) / memorytotal * 100;
             const cpupercentage = os.loadavg();
+            const ostype = os.type();
+            const osversion = os.release();
+            const osbrand = os.arch();
+            const fullosname = `${ostype} ${osversion} ${osbrand}`;
             const name = os.hostname();
             resolve({
+                fullosname,
+                ostype,
+                osversion,
+                osbrand,
                 name,
                 memoryUsage,
                 cpuTime,
