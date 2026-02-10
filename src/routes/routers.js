@@ -2,8 +2,9 @@ import express from "express";
 const routes = express.Router();
 import { getSystemUsage } from "../modules/resources.js";
 import {Duration} from 'luxon'
-routes.get("/resources", (req, res) => {
-  getSystemUsage(1000,false).then((Usage) => {
+routes.get("/resources", async (req, res) => {
+  try {
+    const Usage = await getSystemUsage(false);
     const threads = Usage.threads;
     const dayformatted = Duration.fromMillis(Usage.cpuTime * 1000).toFormat("dd:hh:mm:ss");
     const day = dayformatted.split(':');
@@ -20,7 +21,9 @@ routes.get("/resources", (req, res) => {
       details: Usage.cpuinfo,
     };
     res.json(data);
-  });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch system usage" });
+  }
 });
 
 export default routes;
